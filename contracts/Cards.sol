@@ -35,4 +35,12 @@ library Cards {
     if(seed < 0xFE) return CardRarity.EPIC;
     return CardRarity.LEGENDARY;
   }
+
+  function getDonationValue(uint8 seed) pure internal returns (uint32) {
+    if(seed < 0x69) return 1;
+    if(seed < 0xCF) return 10;
+    if(seed < 0xF4) return 50;
+    if(seed < 0xFF) return 100;
+    return 1000;
+  }
 }

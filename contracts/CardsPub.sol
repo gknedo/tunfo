@@ -16,4 +16,8 @@ library CardsPub {
   function getGeneration() pure public returns (uint8) {
     return Cards.getGeneration();
   }
+
+  function getDonationValue(uint8 seed) pure public returns (uint32) {
+    return Cards.getDonationValue(seed);
+  }
 }

@@ -60,4 +60,35 @@ describe("Tunfos", () => {
       expect(await cards.getGeneration()).to.equal(1);
     });
   });
+
+  describe("getDonationValue", () => {
+    it("returns 1 when value < 40%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getDonationValue(0x00)).to.equal(1);
+      expect(await cards.getDonationValue(0x68)).to.equal(1);
+    });
+
+    it("returns 10 when 40% <= value < 80%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getDonationValue(0x69)).to.equal(10);
+      expect(await cards.getDonationValue(0xCE)).to.equal(10);
+    });
+
+    it("returns 50 when value 80% <= value < 95%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getDonationValue(0xCF)).to.equal(50);
+      expect(await cards.getDonationValue(0xF3)).to.equal(50);
+    });
+
+    it("returns 100 when value 95% <= value < 99.5%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getDonationValue(0xF4)).to.equal(100);
+      expect(await cards.getDonationValue(0xFE)).to.equal(100);
+    });
+
+    it("returns 1000 when value 99% <= value", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getDonationValue(0xFF)).to.equal(1000);
+    });
+  });
 });
