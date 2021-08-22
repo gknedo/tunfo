@@ -9,4 +9,9 @@ library CardsPub {
     // return Cards.getRarity(seed);
     return uint8(Cards.getRarity(seed));
   }
+
+  function getGeneration() pure public returns (uint8) {
+    // return Cards.getRarity(seed);
+    return uint8(Cards.getGeneration());
+  }
 }

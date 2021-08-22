@@ -3,11 +3,12 @@ pragma solidity ^0.8.2;
 
 library Cards {
   enum CardRarity{ COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
+  enum AnimalType{ CAT }
 
   struct Card {   
     CardRarity rarity;
     uint16 generation;
-    uint16 animalId;
+    AnimalType animalId;
     uint32 donationValue;
     uint8 power;
     uint8 vitality;
@@ -23,5 +24,9 @@ library Cards {
     if(seed < 0xF4) return CardRarity.RARE;
     if(seed < 0xFE) return CardRarity.EPIC;
     return CardRarity.LEGENDARY;
+  }
+
+  function getGeneration() pure internal returns (uint8) {
+    return 1;
   }
 }

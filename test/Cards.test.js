@@ -33,4 +33,11 @@ describe("Tunfos", () => {
       expect(await cards.getRarity(0xFF)).to.equal(4);
     });
   });
+
+  describe("getGeneration", () => {
+    it("returns the current generation", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getGeneration()).to.equal(1);
+    });
+  });
 });
