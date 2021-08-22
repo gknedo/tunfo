@@ -6,12 +6,14 @@ library CardsPub {
   using Cards for Cards.Card;
 
   function getRarity(uint8 seed) pure public returns (uint8) {
-    // return Cards.getRarity(seed);
     return uint8(Cards.getRarity(seed));
   }
 
+  function getAnimalType(uint8 seed) pure public returns (uint8) {
+    return uint8(Cards.getAnimalType(seed));
+  }
+
   function getGeneration() pure public returns (uint8) {
-    // return Cards.getRarity(seed);
-    return uint8(Cards.getGeneration());
+    return Cards.getGeneration();
   }
 }

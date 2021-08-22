@@ -2,8 +2,28 @@ const { expect } = require("chai");
 const deploy = require("./utils/deploy");
 
 describe("Tunfos", () => {
+  describe("getAnimalType", () => {
+    it("returns PIGEON when value < 33%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAnimalType(0x00)).to.equal(0);
+      expect(await cards.getAnimalType(0x55)).to.equal(0);
+    });
+
+    it("returns CAT when 33% <= value < 66%", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAnimalType(0x56)).to.equal(1);
+      expect(await cards.getAnimalType(0xAB)).to.equal(1);
+    });
+
+    it("returns DOG when value 66% <= value", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAnimalType(0xAC)).to.equal(2);
+      expect(await cards.getAnimalType(0xFF)).to.equal(2);
+    });
+  });
+
   describe("getRarity", () => {
-    it("returns COMMON when value <9 50%", async () => {
+    it("returns COMMON when value < 50%", async () => {
       const cards = await deploy("CardsPub");
       expect(await cards.getRarity(0x00)).to.equal(0);
       expect(await cards.getRarity(0x7F)).to.equal(0);
