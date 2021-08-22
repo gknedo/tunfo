@@ -43,4 +43,23 @@ library Cards {
     if(seed < 0xFF) return 100;
     return 1000;
   }
+
+  function getAttributeDelta(CardRarity rarity, uint8 minAttribute, uint8 maxAttribute)
+    pure internal
+    returns(uint8) {
+      uint16 bonusMultiplier;
+      if(rarity ==  CardRarity.UNCOMMON) bonusMultiplier = 13;
+      if(rarity ==  CardRarity.RARE) bonusMultiplier = 26;
+      if(rarity ==  CardRarity.EPIC) bonusMultiplier = 43;
+      if(rarity ==  CardRarity.LEGENDARY) bonusMultiplier = 64;
+
+      uint8 bonus = uint8((255 - maxAttribute) * bonusMultiplier / 255);
+      return maxAttribute - minAttribute + bonus;
+  }
+
+  function getAttribute(uint8 minAttribute, uint8 delta, uint8 seed)
+    pure internal
+    returns(uint8) {
+      return uint8(minAttribute + uint16(seed) * delta / 255);
+  }
 }

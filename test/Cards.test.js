@@ -91,4 +91,73 @@ describe("Tunfos", () => {
       expect(await cards.getDonationValue(0xFF)).to.equal(1000);
     });
   });
+
+  describe("getAttributeDelta", () => {
+    it("returns delta when card rarity is COMMON", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(0, 0, 50)).to.equal(50);
+      expect(await cards.getAttributeDelta(0, 50, 100)).to.equal(50);
+      expect(await cards.getAttributeDelta(0, 100, 255)).to.equal(155);
+    });
+
+    it("returns delta with a 5% bonus when card rarity is UNCOMMON", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(1, 0, 55)).to.equal(65);
+      expect(await cards.getAttributeDelta(1, 50, 105)).to.equal(62);
+    });
+
+    it("dont give any bonus if maxAttribute is 255", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(1, 0, 55)).to.equal(65);
+      expect(await cards.getAttributeDelta(1, 250, 255)).to.equal(5);
+    });
+
+    it("returns delta with a 10% bonus when card rarity is RARE", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(2, 0, 55)).to.equal(75);
+      expect(await cards.getAttributeDelta(2, 50, 105)).to.equal(70);
+    });
+
+    it("returns delta with a 17% bonus when card rarity is EPIC", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(3, 0, 55)).to.equal(88);
+      expect(await cards.getAttributeDelta(3, 50, 105)).to.equal(80);
+    });
+
+    it("returns delta with a 25% bonus when card rarity is LEGENDARY", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttributeDelta(4, 0, 55)).to.equal(105);
+      expect(await cards.getAttributeDelta(4, 50, 105)).to.equal(92);
+    });
+  });
+
+  describe("getAttribute", () => {
+    it("returns a value added by min attribute", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttribute(50, 100, 0)).to.equal(50);
+      expect(await cards.getAttribute(100, 100, 0)).to.equal(100);
+    });
+
+    it("returns a value among by delta", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttribute(0, 50, 128)).to.equal(25);
+      expect(await cards.getAttribute(0, 100, 128)).to.equal(50);
+      expect(await cards.getAttribute(0, 200, 128)).to.equal(100);
+    });
+
+    it("returns a value positioned by seed", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttribute(0, 100, 128)).to.equal(50);
+      expect(await cards.getAttribute(0, 100, 255)).to.equal(100);
+    });
+
+    it("returns a value positioned by seed among delta added by min", async () => {
+      const cards = await deploy("CardsPub");
+      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttribute(50, 100, 128)).to.equal(100);
+      expect(await cards.getAttribute(100, 100, 255)).to.equal(200);
+    });
+  });
 });

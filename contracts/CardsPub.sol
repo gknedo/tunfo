@@ -20,4 +20,16 @@ library CardsPub {
   function getDonationValue(uint8 seed) pure public returns (uint32) {
     return Cards.getDonationValue(seed);
   }
+
+  function getAttributeDelta(uint8 rarity, uint8 minAttribute, uint8 maxAttribute)
+    pure public
+    returns(uint8) {
+      return Cards.getAttributeDelta(Cards.CardRarity(rarity), minAttribute, maxAttribute);
+  }
+
+  function getAttribute(uint8 minAttribute, uint8 delta, uint8 seed)
+    pure public
+    returns(uint8) {
+      return Cards.getAttribute(minAttribute, delta, seed);
+  }
 }
