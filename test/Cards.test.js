@@ -2,23 +2,23 @@ const { expect } = require("chai");
 const deploy = require("./utils/deploy");
 
 describe("Tunfos", () => {
-  describe("getAnimalType", () => {
+  describe("getCardType", () => {
     it("returns PIGEON when value < 33%", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAnimalType(0x00)).to.equal(0);
-      expect(await cards.getAnimalType(0x55)).to.equal(0);
+      expect(await cards.getCardType(0x00)).to.equal(0);
+      expect(await cards.getCardType(0x55)).to.equal(0);
     });
 
     it("returns CAT when 33% <= value < 66%", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAnimalType(0x56)).to.equal(1);
-      expect(await cards.getAnimalType(0xAB)).to.equal(1);
+      expect(await cards.getCardType(0x56)).to.equal(1);
+      expect(await cards.getCardType(0xAB)).to.equal(1);
     });
 
     it("returns DOG when value 66% <= value", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAnimalType(0xAC)).to.equal(2);
-      expect(await cards.getAnimalType(0xFF)).to.equal(2);
+      expect(await cards.getCardType(0xAC)).to.equal(2);
+      expect(await cards.getCardType(0xFF)).to.equal(2);
     });
   });
 
@@ -35,19 +35,19 @@ describe("Tunfos", () => {
       expect(await cards.getRarity(0xCC)).to.equal(1);
     });
 
-    it("returns RARE when value 80% <= value < 95%", async () => {
+    it("returns RARE when 80% <= value < 95%", async () => {
       const cards = await deploy("CardsPub");
       expect(await cards.getRarity(0xCD)).to.equal(2);
       expect(await cards.getRarity(0xF3)).to.equal(2);
     });
 
-    it("returns EPIC when value 95% <= value < 99%", async () => {
+    it("returns EPIC when 95% <= value < 99%", async () => {
       const cards = await deploy("CardsPub");
       expect(await cards.getRarity(0xF4)).to.equal(3);
       expect(await cards.getRarity(0xFD)).to.equal(3);
     });
 
-    it("returns LEGENDARY when value 99% <= value", async () => {
+    it("returns LEGENDARY when 99% <= value", async () => {
       const cards = await deploy("CardsPub");
       expect(await cards.getRarity(0xFE)).to.equal(4);
       expect(await cards.getRarity(0xFF)).to.equal(4);
@@ -134,30 +134,30 @@ describe("Tunfos", () => {
   describe("getAttribute", () => {
     it("returns a value added by min attribute", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
-      expect(await cards.getAttribute(50, 100, 0)).to.equal(50);
-      expect(await cards.getAttribute(100, 100, 0)).to.equal(100);
+      expect(await cards.getAttributeByDelta(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttributeByDelta(50, 100, 0)).to.equal(50);
+      expect(await cards.getAttributeByDelta(100, 100, 0)).to.equal(100);
     });
 
     it("returns a value among by delta", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAttribute(0, 50, 128)).to.equal(25);
-      expect(await cards.getAttribute(0, 100, 128)).to.equal(50);
-      expect(await cards.getAttribute(0, 200, 128)).to.equal(100);
+      expect(await cards.getAttributeByDelta(0, 50, 128)).to.equal(25);
+      expect(await cards.getAttributeByDelta(0, 100, 128)).to.equal(50);
+      expect(await cards.getAttributeByDelta(0, 200, 128)).to.equal(100);
     });
 
     it("returns a value positioned by seed", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
-      expect(await cards.getAttribute(0, 100, 128)).to.equal(50);
-      expect(await cards.getAttribute(0, 100, 255)).to.equal(100);
+      expect(await cards.getAttributeByDelta(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttributeByDelta(0, 100, 128)).to.equal(50);
+      expect(await cards.getAttributeByDelta(0, 100, 255)).to.equal(100);
     });
 
     it("returns a value positioned by seed among delta added by min", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getAttribute(0, 100, 0)).to.equal(0);
-      expect(await cards.getAttribute(50, 100, 128)).to.equal(100);
-      expect(await cards.getAttribute(100, 100, 255)).to.equal(200);
+      expect(await cards.getAttributeByDelta(0, 100, 0)).to.equal(0);
+      expect(await cards.getAttributeByDelta(50, 100, 128)).to.equal(100);
+      expect(await cards.getAttributeByDelta(100, 100, 255)).to.equal(200);
     });
   });
 });

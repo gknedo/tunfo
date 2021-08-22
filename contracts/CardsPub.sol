@@ -9,8 +9,8 @@ library CardsPub {
     return uint8(Cards.getRarity(seed));
   }
 
-  function getAnimalType(uint8 seed) pure public returns (uint8) {
-    return uint8(Cards.getAnimalType(seed));
+  function getCardType(uint8 seed) pure public returns (uint8) {
+    return uint8(Cards.getCardType(seed));
   }
 
   function getGeneration() pure public returns (uint8) {
@@ -27,9 +27,9 @@ library CardsPub {
       return Cards.getAttributeDelta(Cards.CardRarity(rarity), minAttribute, maxAttribute);
   }
 
-  function getAttribute(uint8 minAttribute, uint8 delta, uint8 seed)
+  function getAttributeByDelta(uint8 minAttribute, uint8 delta, uint8 seed)
     pure public
     returns(uint8) {
-      return Cards.getAttribute(minAttribute, delta, seed);
+      return Cards.getAttributeByDelta(minAttribute, delta, seed);
   }
 }

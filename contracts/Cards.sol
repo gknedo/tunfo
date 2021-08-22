@@ -3,12 +3,13 @@ pragma solidity ^0.8.2;
 
 library Cards {
   enum CardRarity{ COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
-  enum AnimalType{ PIGEON, CAT, DOG }
+  enum CardType{ PIGEON, CAT, DOG }
+  enum CardAttribute{ POWER, VITALITY, RESISTANCE, AGILITY, INTELIGENCE, CHARISMA }
 
   struct Card {   
     CardRarity rarity;
     uint16 generation;
-    AnimalType animalType;
+    CardType cardType;
     uint32 donationValue;
     uint8 power;
     uint8 vitality;
@@ -22,10 +23,10 @@ library Cards {
     return 1;
   }
 
-  function getAnimalType(uint seed) pure internal returns(AnimalType) {
-    if(seed < 0x56) return AnimalType.PIGEON;
-    if(seed < 0xAC) return AnimalType.CAT;
-    return AnimalType.DOG;
+  function getCardType(uint seed) pure internal returns(CardType) {
+    if(seed < 0x56) return CardType.PIGEON;
+    if(seed < 0xAC) return CardType.CAT;
+    return CardType.DOG;
   }
 
   function getRarity(uint8 seed) pure internal returns (CardRarity) {
@@ -57,7 +58,7 @@ library Cards {
       return maxAttribute - minAttribute + bonus;
   }
 
-  function getAttribute(uint8 minAttribute, uint8 delta, uint8 seed)
+  function getAttributeByDelta(uint8 minAttribute, uint8 delta, uint8 seed)
     pure internal
     returns(uint8) {
       return uint8(minAttribute + uint16(seed) * delta / 255);
