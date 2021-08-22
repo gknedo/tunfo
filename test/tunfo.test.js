@@ -1,8 +1,11 @@
 const { expect } = require("chai");
+const deploy = require("./utils/deploy");
 
 describe("Tunfo", function () {
-  it("Deploys the token successfully", async function () {
-    const greeter = await (await ethers.getContractFactory("Tunfo")).deploy();
-    await greeter.deployed();
+
+  it("generateAttributes - Generate a randomized token attributes", async function () {
+    // tunfo = await deploy("Tunfo");
+    // seed = 1
+    // expect(await tunfo.generateAttributes(1)).to.equal("Hello, world!");
   });
 });
