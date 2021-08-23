@@ -38,4 +38,15 @@ library CardsPub {
     returns(uint8) {
       return Cards.getMinAttribute(Cards.CardType(cardType), Cards.CardAttribute(attribute));
   }
+
+  function getAttribute(uint8 cardType, uint8 rarity, uint8 attribute, uint8 seed)
+  pure public
+    returns(uint8) {
+      return Cards.getAttribute(
+        Cards.CardType(cardType),
+        Cards.CardRarity(rarity),
+        Cards.CardAttribute(attribute),
+        seed
+      );
+  }
 }

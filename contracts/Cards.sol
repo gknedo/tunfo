@@ -95,4 +95,13 @@ library Cards {
 
       return 0;
   }
+
+  function getAttribute(CardType cardType, CardRarity rarity, CardAttribute attribute, uint8 seed)
+    pure internal
+    returns(uint8) {
+      uint8 minAttribute = getMinAttribute(cardType, attribute);
+      uint8 deltaWithBonus = getDeltaWithBonus(rarity, minAttribute);
+      return getAttributeBySeed(minAttribute, deltaWithBonus, seed);
+
+  }
 }

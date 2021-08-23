@@ -176,4 +176,33 @@ describe("Tunfos", () => {
       });
     });
   });
+
+  describe("getAttribute", () => {
+    it("with a 0 seed returns the specified fixture value", async () => {
+      const cards = await deploy("CardsPub");
+      Object.entries(TYPES).map(async ([typeKey, _])=> {
+        const attributes = Object.entries(ATTRIBUTES).map(async ([attKey, _]) => {
+          expect(await cards.getAttribute(TYPES[typeKey].id, RARITIES.COMMON, ATTRIBUTES[attKey], 0x00)).to.equal(TYPES[typeKey][attKey]);
+        });
+      });
+    });
+
+    it("with a 128 seed returns the specified fixture value + 6", async () => {
+      const cards = await deploy("CardsPub");
+      Object.entries(TYPES).map(async ([typeKey, _])=> {
+        const attributes = Object.entries(ATTRIBUTES).map(async ([attKey, _]) => {
+          expect(await cards.getAttribute(TYPES[typeKey].id, RARITIES.COMMON, ATTRIBUTES[attKey], 0x80)).to.equal(TYPES[typeKey][attKey] + 6);
+        });
+      });
+    });
+
+    it("with a 255 seed returns the specified fixture value + 12", async () => {
+      const cards = await deploy("CardsPub");
+      Object.entries(TYPES).map(async ([typeKey, _])=> {
+        const attributes = Object.entries(ATTRIBUTES).map(async ([attKey, _]) => {
+          expect(await cards.getAttribute(TYPES[typeKey].id, RARITIES.COMMON, ATTRIBUTES[attKey], 0xFF)).to.equal(TYPES[typeKey][attKey] + 12);
+        });
+      });
+    });
+  });
 });
