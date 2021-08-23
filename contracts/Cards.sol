@@ -2,9 +2,11 @@
 pragma solidity ^0.8.2;
 
 library Cards {
-  enum CardRarity{ COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
-  enum CardType{ PIGEON, CAT, DOG }
-  enum CardAttribute{ POWER, VITALITY, RESISTANCE, AGILITY, INTELIGENCE, CHARISMA }
+  uint8 constant delta = 12;
+
+  enum CardRarity { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
+  enum CardType { PIGEON, CAT, DOG }
+  enum CardAttribute { POWER, VITALITY, RESISTANCE, AGILITY, INTELIGENCE, CHARISMA }
 
   struct Card {   
     CardRarity rarity;
@@ -45,10 +47,11 @@ library Cards {
     return 1000;
   }
 
-  function getAttributeDelta(CardRarity rarity, uint8 minAttribute, uint8 maxAttribute)
+  function getDeltaWithBonus(CardRarity rarity, uint8 minAttribute)
     pure internal
     returns(uint8) {
       uint16 bonusMultiplier;
+      uint8 maxAttribute = minAttribute + delta;
       if(rarity ==  CardRarity.UNCOMMON) bonusMultiplier = 13;
       if(rarity ==  CardRarity.RARE) bonusMultiplier = 26;
       if(rarity ==  CardRarity.EPIC) bonusMultiplier = 43;
@@ -58,9 +61,24 @@ library Cards {
       return maxAttribute - minAttribute + bonus;
   }
 
-  function getAttributeByDelta(uint8 minAttribute, uint8 delta, uint8 seed)
+  function getAttributeBySeed(uint8 minAttribute, uint8 deltaWithBonus, uint8 seed)
     pure internal
     returns(uint8) {
-      return uint8(minAttribute + uint16(seed) * delta / 255);
+      return uint8(minAttribute + uint16(seed) * deltaWithBonus / 255);
+  }
+
+  function getMinAttribute(CardType cardType, CardAttribute attribute)
+    pure internal
+    returns(uint8) {
+      if(cardType == CardType.CAT){
+        if(attribute == CardAttribute.POWER) return 51;
+        if(attribute == CardAttribute.VITALITY) return 38;
+        if(attribute == CardAttribute.RESISTANCE) return 102;
+        if(attribute == CardAttribute.AGILITY) return 179;
+        if(attribute == CardAttribute.INTELIGENCE) return 115;
+        if(attribute == CardAttribute.CHARISMA) return 204;
+      }
+
+      return 0;
   }
 }

@@ -21,15 +21,21 @@ library CardsPub {
     return Cards.getDonationValue(seed);
   }
 
-  function getAttributeDelta(uint8 rarity, uint8 minAttribute, uint8 maxAttribute)
+  function getDeltaWithBonus(uint8 rarity, uint8 minAttribute)
     pure public
     returns(uint8) {
-      return Cards.getAttributeDelta(Cards.CardRarity(rarity), minAttribute, maxAttribute);
+      return Cards.getDeltaWithBonus(Cards.CardRarity(rarity), minAttribute);
   }
 
-  function getAttributeByDelta(uint8 minAttribute, uint8 delta, uint8 seed)
+  function getAttributeBySeed(uint8 minAttribute, uint8 deltaWithBonus, uint8 seed)
     pure public
     returns(uint8) {
-      return Cards.getAttributeByDelta(minAttribute, delta, seed);
+      return Cards.getAttributeBySeed(minAttribute, deltaWithBonus, seed);
+  }
+
+  function getMinAttribute(uint8 cardType, uint8 attribute)
+    pure public
+    returns(uint8) {
+      return Cards.getMinAttribute(Cards.CardType(cardType), Cards.CardAttribute(attribute));
   }
 }
