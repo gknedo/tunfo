@@ -77,6 +77,20 @@ library Cards {
         if(attribute == CardAttribute.AGILITY) return 179;
         if(attribute == CardAttribute.INTELIGENCE) return 115;
         if(attribute == CardAttribute.CHARISMA) return 204;
+      } else if(cardType == CardType.DOG){
+        if(attribute == CardAttribute.POWER) return 89;
+        if(attribute == CardAttribute.VITALITY) return 77;
+        if(attribute == CardAttribute.RESISTANCE) return 77;
+        if(attribute == CardAttribute.AGILITY) return 102;
+        if(attribute == CardAttribute.INTELIGENCE) return 166;
+        if(attribute == CardAttribute.CHARISMA) return 179;
+      } else if(cardType == CardType.PIGEON){
+        if(attribute == CardAttribute.POWER) return 38;
+        if(attribute == CardAttribute.VITALITY) return 13;
+        if(attribute == CardAttribute.RESISTANCE) return 38;
+        if(attribute == CardAttribute.AGILITY) return 115;
+        if(attribute == CardAttribute.INTELIGENCE) return 89;
+        if(attribute == CardAttribute.CHARISMA) return 26;
       }
 
       return 0;

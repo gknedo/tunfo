@@ -1,56 +1,27 @@
 const { expect } = require("chai");
 const deploy = require("./utils/deploy");
-
-const ATTRIBUTES = {
-  POWER: 0,
-  VITALITY: 1,
-  RESISTANCE: 2,
-  AGILITY: 3,
-  INTELIGENCE: 4,
-  CHARISMA: 5,
-};
-
-const RARITIES ={
-  COMMON: 0,
-  UNCOMMON: 1,
-  RARE: 2,
-  EPIC: 3,
-  LEGENDARY: 4,
-}
-
-const TYPES = {
-  PIGEON: 0,
-  CAT: 1,
-  DOG: 2,
-};
-
-const CAT = {
-  POWER: 51,
-  VITALITY: 38,
-  RESISTANCE: 102,
-  AGILITY: 179,
-  INTELIGENCE: 115,
-  CHARISMA: 204,
-};
+const ATTRIBUTES = require("./fixtures/attributes.json");
+const RARITIES = require("./fixtures/rarities.json");
+const TYPES = require("./fixtures/types.json");
 
 describe("Tunfos", () => {
   describe("getCardType", () => {
     it("returns PIGEON when value < 33%", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getCardType(0x00)).to.equal(TYPES.PIGEON);
-      expect(await cards.getCardType(0x55)).to.equal(TYPES.PIGEON);
+      expect(await cards.getCardType(0x00)).to.equal(TYPES.PIGEON.id);
+      expect(await cards.getCardType(0x55)).to.equal(TYPES.PIGEON.id);
     });
 
     it("returns CAT when 33% <= value < 66%", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getCardType(0x56)).to.equal(TYPES.CAT);
-      expect(await cards.getCardType(0xAB)).to.equal(TYPES.CAT);
+      expect(await cards.getCardType(0x56)).to.equal(TYPES.CAT.id);
+      expect(await cards.getCardType(0xAB)).to.equal(TYPES.CAT.id);
     });
 
     it("returns DOG when value 66% <= value", async () => {
       const cards = await deploy("CardsPub");
-      expect(await cards.getCardType(0xAC)).to.equal(TYPES.DOG);
-      expect(await cards.getCardType(0xFF)).to.equal(TYPES.DOG);
+      expect(await cards.getCardType(0xAC)).to.equal(TYPES.DOG.id);
+      expect(await cards.getCardType(0xFF)).to.equal(TYPES.DOG.id);
     });
   });
 
@@ -196,15 +167,12 @@ describe("Tunfos", () => {
   });
 
   describe("getMinAttribute", () => {
-    describe("CAT", () => {
-      it("returns the specified value", async () => {
-        const cards = await deploy("CardsPub");
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.POWER)).to.equal(CAT.POWER);
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.VITALITY)).to.equal(CAT.VITALITY);
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.RESISTANCE)).to.equal(CAT.RESISTANCE);
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.AGILITY)).to.equal(CAT.AGILITY);
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.INTELIGENCE)).to.equal(CAT.INTELIGENCE);
-        expect(await cards.getMinAttribute(TYPES.CAT, ATTRIBUTES.CHARISMA)).to.equal(CAT.CHARISMA);
+    it("returns the specified fixture value", async () => {
+      const cards = await deploy("CardsPub");
+      Object.entries(TYPES).map(async ([typeKey, _])=> {
+        const attributes = Object.entries(ATTRIBUTES).map(async ([attKey, _]) => {
+          expect(await cards.getMinAttribute(TYPES[typeKey].id, ATTRIBUTES[attKey])).to.equal(TYPES[typeKey][attKey]);
+        });
       });
     });
   });

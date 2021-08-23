@@ -1,0 +1,8 @@
+{
+  "POWER": 0,
+  "VITALITY": 1,
+  "RESISTANCE": 2,
+  "AGILITY": 3,
+  "INTELIGENCE": 4,
+  "CHARISMA": 5
+}

@@ -1,0 +1,30 @@
+{
+  "PIGEON": {
+    "id": 0,
+    "POWER": 38,
+    "VITALITY": 13,
+    "RESISTANCE": 38,
+    "AGILITY": 115,
+    "INTELIGENCE": 89,
+    "CHARISMA": 26
+  },
+  "CAT": {
+    "id": 1,
+    "POWER": 51,
+    "VITALITY": 38,
+    "RESISTANCE": 102,
+    "AGILITY": 179,
+    "INTELIGENCE": 115,
+    "CHARISMA": 204
+  },
+  "DOG": {
+    "id": 2,
+    "POWER": 89,
+    "VITALITY": 77,
+    "RESISTANCE": 77,
+    "AGILITY": 102,
+    "INTELIGENCE": 166,
+    "CHARISMA": 179
+  }
+}
+  
