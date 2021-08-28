@@ -7,11 +7,13 @@
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.5",
-    "hardhat": "^2.6.0"
+    "hardhat": "^2.6.0",
+    "hardhat-gas-reporter": "^1.0.4"
   },
-  "scripts":{
+  "scripts": {
     "start": "npx hardhat node",
     "test": "npx hardhat test",
+    "test-gas": "REPORT_GAS=1 npx hardhat test",
     "console": "npx hardhat console --network localhost"
   }
 }
