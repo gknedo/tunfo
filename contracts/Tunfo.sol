@@ -64,7 +64,7 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     return super.supportsInterface(interfaceId);
   }
 
-  function generateAttributes(bytes32 seed) public pure returns (Cards.Card memory){
-    // return Cards.Card(1,16,10);
-  }
+  // function generateAttributes(bytes32 seed) public pure returns (Cards.Card memory){
+  //   // return Cards.Card(1,16,10);
+  // }
 }
