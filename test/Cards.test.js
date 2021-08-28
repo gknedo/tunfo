@@ -4,7 +4,7 @@ const ATTRIBUTES = require("./fixtures/attributes.json");
 const RARITIES = require("./fixtures/rarities.json");
 const TYPES = require("./fixtures/types.json");
 
-describe("Tunfos", () => {
+describe("Cards", () => {
   describe("getCardType", () => {
     it("returns PIGEON when value < 33%", async () => {
       const cards = await deploy("CardsPub");
