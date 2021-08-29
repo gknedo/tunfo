@@ -27,7 +27,7 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   function mint() public payable {
     require(msg.value == mintCardCost, "Card cost is 10.");
 
-    // _mintCard(msg.sender);
+    _mintCard(msg.sender);
   }
 
   function _mintCard(address to) private {
