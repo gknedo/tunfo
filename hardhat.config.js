@@ -20,8 +20,20 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
+  solidity: {
+    version: "0.8.4",
+    settings: {
+      optimizer: {
+        enabled: (process.env.REPORT_GAS) ? true : false,
+        runs: 200,
+      },
+    },
+  },
   gasReporter: {
-    enabled: (process.env.REPORT_GAS) ? true : false
+    enabled: (process.env.REPORT_GAS) ? true : false,
+    currency: 'BRL',
+    showTimeSpent: true,
+    coinmarketcap: process.env.COINMARKETCAP_KEY,
+    excludeContracts: ["CardsPub.sol"]
   }
 };
