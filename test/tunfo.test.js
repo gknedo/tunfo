@@ -20,21 +20,16 @@ describe("Tunfo", () => {
   describe("mint", () => {
     it("reverts if value is not the Card Cost", async () => {
       const tunfo = await deploy("Tunfo");
-      const [owner, wallet] = await hre.ethers.getSigners();
-
-      const provider = tunfo.provider;
-      console.log((await provider.getBalance(tunfo.address)).toString());
+      const [_, wallet] = await hre.ethers.getSigners();
 
       await expect(tunfo.mint({value: 0})).to.be.reverted;
       await expect(tunfo.mint({value: cardCost - 1})).to.be.reverted;
       await expect(tunfo.mint({value: cardCost})).to.not.be.reverted;
       await expect(tunfo.mint({value: cardCost+1})).to.be.reverted;
-      console.log((await provider.getBalance(tunfo.address)).toString());
 
       await expect(tunfo.connect(wallet).mint({value: cardCost-1})).to.be.reverted;
       await expect(tunfo.connect(wallet).mint({value: cardCost+1})).to.be.reverted;
       await expect(tunfo.connect(wallet).mint({value: cardCost})).to.not.be.reverted;
-      console.log((await provider.getBalance(tunfo.address)).toString());
     });
 
     it("add a token", async () => {
@@ -49,11 +44,6 @@ describe("Tunfo", () => {
 
     it("receives the mint fee", async () => {
       const tunfo = await deploy("Tunfo");
-      // const provider = tunfo.provider;
-      // const previousBalance = Number.parseInt(await provider.getBalance(tunfo.address));
-      // await tunfo.mint({value: cardCost});
-      // const newBalance = Number.parseInt(await provider.getBalance(tunfo.address));
-      // expect(newBalance).to.equal(previousBalance + cardCost);
 
       await expect(() => tunfo.mint({value: cardCost}))
         .to.changeEtherBalance(tunfo, cardCost);
