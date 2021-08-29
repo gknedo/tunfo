@@ -14,10 +14,23 @@ import "./Cards.sol";
 contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable, ERC721Burnable {
   using Counters for Counters.Counter;
   using Cards for Cards.Card;
+
+  uint constant mintCardCost = 10;
   Counters.Counter private _tokenIdCounter;
+  
   constructor() ERC721("Tunfo", "TNF") {}
 
   function safeMint(address to) public onlyOwner {
+    _mintCard(to);
+  }
+
+  function mint() public payable {
+    require(msg.value == mintCardCost, "Card cost is 10.");
+
+    // _mintCard(msg.sender);
+  }
+
+  function _mintCard(address to) private {
     _safeMint(to, _tokenIdCounter.current());
     _tokenIdCounter.increment();
   }
