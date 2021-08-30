@@ -49,10 +49,21 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   function generateAttributes(uint256 maxReceived) public onlyOwner {
     uint256 maxAllowed = _tokenIdCounter.current() - _tokenIdToGenerateCounter.current();
     uint256 max = maxAllowed > maxReceived ? maxReceived : maxAllowed;
+    uint256 currentBlock = uint256(blockhash(block.number-1));
 
     for(uint256 i=0; i < max; i++){
+      uint256 currentTokenId = _tokenIdCounter.current();
+      uint256 seed = uint256(keccak256(abi.encodePacked(currentBlock, currentTokenId, i)));
+      initializeToken(currentTokenId, seed);
       _tokenIdToGenerateCounter.increment();
     }
+  }
+
+  function initializeToken(uint256 tokenId, uint256 seed) public onlyOwner {
+  }
+
+  function isTokenInitialized(uint256 tokenId) public view returns(bool) {
+    return _tokenIdToGenerateCounter.current() > tokenId;
   }
 
   function pause() public onlyOwner {

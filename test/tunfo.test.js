@@ -68,11 +68,11 @@ describe("Tunfo", () => {
         await tunfo.mint({value: cardCost});
         await tunfo.mint({value: cardCost});
 
-        await expect(tunfo.getAttributes(0)).to.be.reverted;
-        await expect(tunfo.getAttributes(3)).to.be.reverted;
+        expect(await tunfo.isTokenInitialized(0)).to.be.false;
+        expect(await tunfo.isTokenInitialized(3)).to.be.false;
         await tunfo.generateUnlimitedAttributes();
-        await expect(tunfo.getAttributes(0)).to.not.be.reverted;
-        await expect(tunfo.getAttributes(3)).to.not.be.reverted;
+        expect(await tunfo.isTokenInitialized(0)).to.be.true;
+        expect(await tunfo.isTokenInitialized(3)).to.not.be.false;
       });
     });
 
@@ -81,12 +81,14 @@ describe("Tunfo", () => {
         const tunfo = await deploy("Tunfo");
         await tunfo.mint({value: cardCost});
   
-        await expect(tunfo.generateAttributes(0)).to.not.be.reverted;
+        expect(await tunfo.isTokenInitialized(0)).to.be.false;
+        await expect(tunfo.generateAttributes(1)).to.not.be.reverted;
+        expect(await tunfo.isTokenInitialized(0)).to.be.true;
       });
     });
 
     describe("only owner can call generateAttributes", () =>{
-      it("not reverts if called by owner", async () => {
+      it("owner can call generate functions", async () => {
         const tunfo = await deploy("Tunfo");
 
         await tunfo.mint({value: cardCost});
@@ -120,8 +122,8 @@ describe("Tunfo", () => {
         await tunfo.mint({value: cardCost});
         await tunfo.generateAttributes(3);
 
-        await expect(tunfo.getAttributes(1)).to.not.be.reverted;
-        await expect(tunfo.getAttributes(2)).to.be.reverted;
+        expect(await tunfo.isTokenInitialized(1)).to.be.true;
+        expect(await tunfo.isTokenInitialized(2)).to.be.false;
       });
     });
   });
