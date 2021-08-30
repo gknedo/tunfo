@@ -49,4 +49,40 @@ describe("Tunfo", () => {
         .to.changeEtherBalance(tunfo, cardCost);
     });
   });
+
+  describe("getAttributes", () => {
+    it("reverts if token was not generated", async () => {
+      const tunfo = await deploy("Tunfo");
+      await tunfo.mint({value: cardCost});
+
+      await expect(tunfo.getAttributes(0)).to.be.reverted;
+    });
+  });
+
+  describe("generateAttributes", () => {
+    describe("with no paramaters", () => {
+      it("generates all remaining tokens", async () => {
+        const tunfo = await deploy("Tunfo");
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+
+        await expect(tunfo.getAttributes(0)).to.be.reverted;
+        await expect(tunfo.getAttributes(3)).to.be.reverted;
+        await tunfo.generateUnlimitedAttributes();
+        await expect(tunfo.getAttributes(0)).to.not.be.reverted;
+        await expect(tunfo.getAttributes(3)).to.not.be.reverted;
+      });
+    });
+
+    describe("limiting the number to generate", () =>{
+      it("reverts if token was not generated", async () => {
+        const tunfo = await deploy("Tunfo");
+        await tunfo.mint({value: cardCost});
+  
+        await expect(tunfo.generateAttributes(0)).to.not.be.reverted;
+      });
+    });
+  });
 });

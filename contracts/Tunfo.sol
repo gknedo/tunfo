@@ -15,8 +15,10 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   using Counters for Counters.Counter;
   using Cards for Cards.Card;
 
-  uint constant mintCardCost = 10;
+  uint256 constant mintCardCost = 10;
   Counters.Counter private _tokenIdCounter;
+  Counters.Counter private _tokenIdToGenerateCounter;
+  mapping (uint256 => Cards.Card) _attributes;
   
   constructor() ERC721("Tunfo", "TNF") {}
 
@@ -33,6 +35,20 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   function _mintCard(address to) private {
     _safeMint(to, _tokenIdCounter.current());
     _tokenIdCounter.increment();
+  }
+
+  function getAttributes(uint256 tokenId) public view {
+    require(_tokenIdToGenerateCounter.current() > tokenId);
+  }
+
+  function generateUnlimitedAttributes() public {
+    generateAttributes(_tokenIdCounter.current() - _tokenIdToGenerateCounter.current());
+  }
+
+  function generateAttributes(uint256 max) public {
+    for(uint256 i=0; i < max; i++){
+      _tokenIdToGenerateCounter.increment();
+    }
   }
 
   function pause() public onlyOwner {

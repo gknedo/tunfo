@@ -8,7 +8,7 @@ library Cards {
   enum CardType { PIGEON, CAT, DOG }
   enum CardAttribute { POWER, VITALITY, RESISTANCE, AGILITY, INTELIGENCE, CHARISMA }
 
-  struct Card {   
+  struct Card {
     CardRarity rarity;
     uint16 generation;
     CardType cardType;
