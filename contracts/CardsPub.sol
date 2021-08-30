@@ -53,7 +53,7 @@ library CardsPub {
   }
 
   function generateCard(uint256 seed)
-    view public
+    pure public
     returns(uint8, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
       Cards.Card memory card = Cards.generateCard(seed);
       return(
