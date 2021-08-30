@@ -3,6 +3,7 @@ const deploy = require("./utils/deploy");
 const ATTRIBUTES = require("./fixtures/attributes.json");
 const RARITIES = require("./fixtures/rarities.json");
 const TYPES = require("./fixtures/types.json");
+const { BigNumber } = require("ethers");
 
 describe("Cards", () => {
   describe("getCardType", () => {
@@ -203,6 +204,31 @@ describe("Cards", () => {
           expect(await cards.getAttribute(TYPES[typeKey].id, RARITIES.COMMON, ATTRIBUTES[attKey], 0xFF)).to.equal(TYPES[typeKey][attKey] + 12);
         });
       });
+    });
+  });
+  describe("generateCard", () => {
+    it("returns a card based on seed", async () => {
+      const seed = BigNumber.from("0x420a5ebca4d3f8b2b6cd09ef0a277296cfa1d7b6f89a230399b6c59fe0ee2cd0");
+      const cards = await deploy("CardsPub");
+      await cards.generateCard(0);
+
+      const expectedRarity = await cards.getRarity(0xd0);
+      const expectedType = await cards.getCardType(0x2c);
+      const expectedValue = await cards.getDonationValue(0xee);
+
+      console.log(await cards.generateCard(seed));
+      expect(await cards.generateCard(seed)).to.eql([
+        expectedType,
+        expectedRarity,
+        1,
+        expectedValue,
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.POWER, 0xe0),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.VITALITY, 0x9f),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.RESISTANCE, 0xc5),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.AGILITY, 0xb6),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.INTELIGENCE, 0x99),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.CHARISMA, 0x03)
+      ]);
     });
   });
 });

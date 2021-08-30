@@ -2,6 +2,8 @@
 pragma solidity ^0.8.2;
 import "./Cards.sol";
 
+import "hardhat/console.sol";
+
 library CardsPub {
   using Cards for Cards.Card;
 
@@ -40,7 +42,7 @@ library CardsPub {
   }
 
   function getAttribute(uint8 cardType, uint8 rarity, uint8 attribute, uint8 seed)
-  pure public
+    pure public
     returns(uint8) {
       return Cards.getAttribute(
         Cards.CardType(cardType),
@@ -49,4 +51,22 @@ library CardsPub {
         seed
       );
   }
+
+  function generateCard(uint256 seed)
+    view public
+    returns(uint8, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
+      Cards.Card memory card = Cards.generateCard(seed);
+      return(
+        uint8(card.cardType),
+        uint8(card.rarity),
+        card.generation,
+        card.donationValue,
+        card.power,
+        card.vitality,
+        card.resistance,
+        card.agility,
+        card.inteligence,
+        card.charisma
+      );
+  } 
 }

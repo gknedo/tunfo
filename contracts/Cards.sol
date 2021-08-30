@@ -9,9 +9,9 @@ library Cards {
   enum CardAttribute { POWER, VITALITY, RESISTANCE, AGILITY, INTELIGENCE, CHARISMA }
 
   struct Card {
+    CardType cardType;
     CardRarity rarity;
     uint16 generation;
-    CardType cardType;
     uint32 donationValue;
     uint8 power;
     uint8 vitality;
@@ -25,7 +25,7 @@ library Cards {
     return 1;
   }
 
-  function getCardType(uint seed) pure internal returns(CardType) {
+  function getCardType(uint8 seed) pure internal returns(CardType) {
     if(seed < 0x56) return CardType.PIGEON;
     if(seed < 0xAC) return CardType.CAT;
     return CardType.DOG;
@@ -102,6 +102,25 @@ library Cards {
       uint8 minAttribute = getMinAttribute(cardType, attribute);
       uint8 deltaWithBonus = getDeltaWithBonus(rarity, minAttribute);
       return getAttributeBySeed(minAttribute, deltaWithBonus, seed);
+  }
 
+  function generateCard(uint256 seed)
+    pure internal
+    returns(Card memory) {
+      CardRarity rarity = getRarity(uint8(seed));
+      CardType cardType = getCardType(uint8(seed >> 8));
+
+      return Card(
+        cardType,
+        rarity,
+        getGeneration(),
+        getDonationValue(uint8(seed >> 16)),
+        getAttribute(cardType, rarity, CardAttribute.POWER, uint8(seed >> 24)),
+        getAttribute(cardType, rarity, CardAttribute.VITALITY, uint8(seed >> 32)),
+        getAttribute(cardType, rarity, CardAttribute.RESISTANCE, uint8(seed >> 40)),
+        getAttribute(cardType, rarity, CardAttribute.AGILITY, uint8(seed >> 48)),
+        getAttribute(cardType, rarity, CardAttribute.INTELIGENCE, uint8(seed >> 56)),
+        getAttribute(cardType, rarity, CardAttribute.CHARISMA, uint8(seed >> 64))
+      );
   }
 }
