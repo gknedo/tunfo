@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./Cards.sol";
+import "hardhat/console.sol";
 
 contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable, ERC721Burnable {
   using Counters for Counters.Counter;
@@ -41,11 +42,14 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     require(_tokenIdToGenerateCounter.current() > tokenId);
   }
 
-  function generateUnlimitedAttributes() public {
+  function generateUnlimitedAttributes() public onlyOwner {
     generateAttributes(_tokenIdCounter.current() - _tokenIdToGenerateCounter.current());
   }
 
-  function generateAttributes(uint256 max) public {
+  function generateAttributes(uint256 maxReceived) public onlyOwner {
+    uint256 maxAllowed = _tokenIdCounter.current() - _tokenIdToGenerateCounter.current();
+    uint256 max = maxAllowed > maxReceived ? maxReceived : maxAllowed;
+
     for(uint256 i=0; i < max; i++){
       _tokenIdToGenerateCounter.increment();
     }

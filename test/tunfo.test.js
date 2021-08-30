@@ -84,5 +84,45 @@ describe("Tunfo", () => {
         await expect(tunfo.generateAttributes(0)).to.not.be.reverted;
       });
     });
+
+    describe("only owner can call generateAttributes", () =>{
+      it("not reverts if called by owner", async () => {
+        const tunfo = await deploy("Tunfo");
+
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+
+        await expect(tunfo.generateAttributes(1)).to.not.be.reverted;
+        await expect(tunfo.generateUnlimitedAttributes()).to.not.be.reverted;
+      });
+
+      it("reverts if not called by owner", async () => {
+        const tunfo = await deploy("Tunfo");
+        const [_, otherWallet] = await hre.ethers.getSigners();
+
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+
+        await expect(tunfo.connect(otherWallet).generateAttributes(1)).to.be.reverted;
+        await expect(tunfo.connect(otherWallet).generateUnlimitedAttributes()).to.be.reverted;
+      });
+
+      it("not generate more than minted cards", async () => {
+        const tunfo = await deploy("Tunfo");
+
+        await tunfo.mint({value: cardCost});
+        await tunfo.mint({value: cardCost});
+        await tunfo.generateAttributes(3);
+
+        await expect(tunfo.getAttributes(1)).to.not.be.reverted;
+        await expect(tunfo.getAttributes(2)).to.be.reverted;
+      });
+    });
   });
 });
