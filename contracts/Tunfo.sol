@@ -38,15 +38,15 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     _tokenIdCounter.increment();
   }
 
-  function getAttributes(uint256 tokenId) public view {
+  function getAttributes(uint256 tokenId) public view{
     require(_tokenIdToGenerateCounter.current() > tokenId);
   }
 
-  function generateUnlimitedAttributes() public onlyOwner {
-    generateAttributes(_tokenIdCounter.current() - _tokenIdToGenerateCounter.current());
+  function generateAllTokens() public onlyOwner {
+    generateTokens(_tokenIdCounter.current() - _tokenIdToGenerateCounter.current());
   }
 
-  function generateAttributes(uint256 maxReceived) public onlyOwner {
+  function generateTokens(uint256 maxReceived) public onlyOwner {
     uint256 maxAllowed = _tokenIdCounter.current() - _tokenIdToGenerateCounter.current();
     uint256 max = maxAllowed > maxReceived ? maxReceived : maxAllowed;
     uint256 currentBlock = uint256(blockhash(block.number-1));
@@ -108,7 +108,7 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     return super.supportsInterface(interfaceId);
   }
 
-  // function generateAttributes(bytes32 seed) public pure returns (Cards.Card memory){
+  // function generateTokens(bytes32 seed) public pure returns (Cards.Card memory){
   //   // return Cards.Card(1,16,10);
   // }
 }

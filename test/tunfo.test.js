@@ -59,7 +59,7 @@ describe("Tunfo", () => {
     });
   });
 
-  describe("generateAttributes", () => {
+  describe("generateTokens", () => {
     describe("with no paramaters", () => {
       it("generates all remaining tokens", async () => {
         const tunfo = await deploy("Tunfo");
@@ -70,7 +70,7 @@ describe("Tunfo", () => {
 
         expect(await tunfo.isTokenInitialized(0)).to.be.false;
         expect(await tunfo.isTokenInitialized(3)).to.be.false;
-        await tunfo.generateUnlimitedAttributes();
+        await tunfo.generateAllTokens();
         expect(await tunfo.isTokenInitialized(0)).to.be.true;
         expect(await tunfo.isTokenInitialized(3)).to.not.be.false;
       });
@@ -82,12 +82,12 @@ describe("Tunfo", () => {
         await tunfo.mint({value: cardCost});
   
         expect(await tunfo.isTokenInitialized(0)).to.be.false;
-        await expect(tunfo.generateAttributes(1)).to.not.be.reverted;
+        await expect(tunfo.generateTokens(1)).to.not.be.reverted;
         expect(await tunfo.isTokenInitialized(0)).to.be.true;
       });
     });
 
-    describe("only owner can call generateAttributes", () =>{
+    describe("only owner can call generateTokens", () =>{
       it("owner can call generate functions", async () => {
         const tunfo = await deploy("Tunfo");
 
@@ -97,8 +97,8 @@ describe("Tunfo", () => {
         await tunfo.mint({value: cardCost});
         await tunfo.mint({value: cardCost});
 
-        await expect(tunfo.generateAttributes(1)).to.not.be.reverted;
-        await expect(tunfo.generateUnlimitedAttributes()).to.not.be.reverted;
+        await expect(tunfo.generateTokens(1)).to.not.be.reverted;
+        await expect(tunfo.generateAllTokens()).to.not.be.reverted;
       });
 
       it("reverts if not called by owner", async () => {
@@ -111,8 +111,8 @@ describe("Tunfo", () => {
         await tunfo.mint({value: cardCost});
         await tunfo.mint({value: cardCost});
 
-        await expect(tunfo.connect(otherWallet).generateAttributes(1)).to.be.reverted;
-        await expect(tunfo.connect(otherWallet).generateUnlimitedAttributes()).to.be.reverted;
+        await expect(tunfo.connect(otherWallet).generateTokens(1)).to.be.reverted;
+        await expect(tunfo.connect(otherWallet).generateAllTokens()).to.be.reverted;
       });
 
       it("not generate more than minted cards", async () => {
@@ -120,7 +120,7 @@ describe("Tunfo", () => {
 
         await tunfo.mint({value: cardCost});
         await tunfo.mint({value: cardCost});
-        await tunfo.generateAttributes(3);
+        await tunfo.generateTokens(3);
 
         expect(await tunfo.isTokenInitialized(1)).to.be.true;
         expect(await tunfo.isTokenInitialized(2)).to.be.false;
