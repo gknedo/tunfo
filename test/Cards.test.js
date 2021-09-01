@@ -216,7 +216,6 @@ describe("Cards", () => {
       const expectedType = await cards.getCardType(0x2c);
       const expectedValue = await cards.getDonationValue(0xee);
 
-      console.log(await cards.generateCard(seed));
       expect(await cards.generateCard(seed)).to.eql([
         expectedType,
         expectedRarity,
