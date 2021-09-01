@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Profile from './components/organism/Profile';
+import Mint from './components/organism/Mint';
 
 function App() {
+  const [account, setAccount] = useState()
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Profile account={account} setAccount={setAccount}/>
+      { account && <Mint account={account}/> }
+      
     </div>
   );
 }
