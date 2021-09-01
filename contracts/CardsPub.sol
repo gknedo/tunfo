@@ -11,8 +11,8 @@ library CardsPub {
     return uint8(Cards.getRarity(seed));
   }
 
-  function getCardType(uint8 seed) pure public returns (uint8) {
-    return uint8(Cards.getCardType(seed));
+  function getCardType(uint8 seed) pure public returns (uint16) {
+    return uint16(Cards.getCardType(seed));
   }
 
   function getGeneration() pure public returns (uint8) {
@@ -54,10 +54,10 @@ library CardsPub {
 
   function generateCard(uint256 seed)
     pure public
-    returns(uint8, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
+    returns(uint16, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
       Cards.Card memory card = Cards.generateCard(seed);
       return(
-        uint8(card.cardType),
+        uint16(card.cardType),
         uint8(card.rarity),
         card.generation,
         card.donationValue,

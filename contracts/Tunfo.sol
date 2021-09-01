@@ -39,11 +39,11 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   }
 
   function getAttributes(uint256 tokenId) public view
-    returns(uint8, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
+    returns(uint16, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
     require(_tokenIdToGenerateCounter.current() > tokenId);
     Cards.Card memory card = _cards[tokenId];
     return(
-      uint8(card.cardType),
+      uint16(card.cardType),
       uint8(card.rarity),
       card.generation,
       card.donationValue,
