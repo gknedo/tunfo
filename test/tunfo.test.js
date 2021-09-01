@@ -163,7 +163,6 @@ describe("Tunfo", () => {
       expect(card0[3]).to.be.greaterThan(0);
       expect(card1[3]).to.be.greaterThan(0);
       expect(card0[4]).to.not.be.eq(card1[4]);
-
     });
   });
 });
