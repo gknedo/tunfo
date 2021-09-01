@@ -19,7 +19,7 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
   uint256 constant mintCardCost = 10;
   Counters.Counter private _tokenIdCounter;
   Counters.Counter private _tokenIdToGenerateCounter;
-  mapping (uint256 => Cards.Card) _cards;
+  mapping (uint256 => Cards.Card) private _cards;
   
   constructor() ERC721("Tunfo", "TNF") {}
 
@@ -38,8 +38,22 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     _tokenIdCounter.increment();
   }
 
-  function getAttributes(uint256 tokenId) public view{
+  function getAttributes(uint256 tokenId) public view
+    returns(uint8, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
     require(_tokenIdToGenerateCounter.current() > tokenId);
+    Cards.Card memory card = _cards[tokenId];
+    return(
+      uint8(card.cardType),
+      uint8(card.rarity),
+      card.generation,
+      card.donationValue,
+      card.power,
+      card.vitality,
+      card.resistance,
+      card.agility,
+      card.inteligence,
+      card.charisma
+    );
   }
 
   function generateAllTokens() public onlyOwner {
@@ -52,7 +66,7 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     uint256 currentBlock = uint256(blockhash(block.number-1));
 
     for(uint256 i=0; i < max; i++){
-      uint256 currentTokenId = _tokenIdCounter.current();
+      uint256 currentTokenId = _tokenIdToGenerateCounter.current();
       uint256 seed = uint256(keccak256(abi.encodePacked(currentBlock, currentTokenId, i)));
       initializeToken(currentTokenId, seed);
       _tokenIdToGenerateCounter.increment();

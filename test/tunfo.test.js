@@ -127,4 +127,43 @@ describe("Tunfo", () => {
       });
     });
   });
+  
+  describe("getAttributes", () => {
+    it("reverts if token not minted", async () => {
+      const tunfo = await deploy("Tunfo");
+      await expect(tunfo.getAttributes(0)).to.be.reverted;
+    });
+
+    it("reverts if token was not initialized", async () => {
+      const tunfo = await deploy("Tunfo");
+      await tunfo.mint({value: cardCost});
+
+      await expect(tunfo.getAttributes(0)).to.be.reverted;
+    });
+
+    it("is ok if token was initialized", async () => {
+      const tunfo = await deploy("Tunfo");
+      await tunfo.mint({value: cardCost});
+      await tunfo.generateAllTokens();
+
+      await expect(tunfo.getAttributes(0)).to.not.be.reverted;
+    });
+
+    it("returns the card", async () => {
+      const tunfo = await deploy("Tunfo");
+      await tunfo.mint({value: cardCost});
+      await tunfo.mint({value: cardCost});
+      await tunfo.generateAllTokens();
+      const card0 = await tunfo.getAttributes(0);
+      const card1 = await tunfo.getAttributes(1);
+      expect(card0.length).to.eq(10);
+      expect(card1.length).to.eq(10);
+      expect(card0[2]).to.eq(1);
+      expect(card1[2]).to.eq(1);
+      expect(card0[3]).to.be.greaterThan(0);
+      expect(card1[3]).to.be.greaterThan(0);
+      expect(card0[4]).to.not.be.eq(card1[4]);
+
+    });
+  });
 });
