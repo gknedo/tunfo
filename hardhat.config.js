@@ -35,5 +35,10 @@ module.exports = {
     showTimeSpent: true,
     coinmarketcap: process.env.COINMARKETCAP_KEY,
     excludeContracts: ["CardsPub.sol"]
+  },
+  networks: {
+    hardhat: {
+      chainId: 1337
+    },
   }
 };
