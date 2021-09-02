@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import specs from "./Tunfo.json";
 
-function Mint({useGlobalState}) {
+function Generate({useGlobalState}) {
   const [wallet] = useGlobalState('wallet');
   const [contract, setContract] = useState();
 
@@ -10,16 +10,15 @@ function Mint({useGlobalState}) {
     setContract(new ethers.Contract(specs.address, specs.abi, wallet));
   }, [wallet, setContract]);
 
-  const mint = async () => {
-    if(!contract) return;
-    await contract.mint({value: 10});
+  const generateAllTokens = async () => {
+    await contract.generateAllTokens();
   }
 
   return (
-    <div className="btn-mint">
-      <button onClick={() => mint()}>Mint</button>
+    <div className="btn-generate">
+      <button onClick={() => generateAllTokens()}>Generate</button>
     </div>
   );
 }
 
-export default Mint;
+export default Generate;

@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Profile from './components/organism/Profile';
 import Mint from './components/organism/Mint';
+import Generate from './components/organism/Generate';
+import Card from './components/organism/Card';
 import { ethers } from "ethers";
 import { createGlobalState } from 'react-hooks-global-state';
 
@@ -69,14 +71,20 @@ function App() {
 
   return (
       <div className="App">
+        <div>
+          {currentBlock} - {date}
+        </div>
         <Profile useGlobalState={useGlobalState}/>
         { address && <div>
           Your balance is: {balance}
           <Mint useGlobalState={useGlobalState}/>
+          <Generate useGlobalState={useGlobalState}/>
+          {/* <Card cardId={0} useGlobalState={useGlobalState}/> */}
+          <Card cardId={1} useGlobalState={useGlobalState}/>
+          {/* <Card cardId={2} useGlobalState={useGlobalState}/>
+          <Card cardId={3} useGlobalState={useGlobalState}/>
+          <Card cardId={4} useGlobalState={useGlobalState}/> */}
         </div>}
-        <div>
-        {currentBlock} - {date}
-        </div>
       </div>
     
   );
