@@ -1,11 +1,20 @@
-function Mint({account, setAccount}) {
-  const mint = async () => {
-    setAccount((await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]);
+import { ethers } from 'ethers';
+
+function Mint({useGlobalState}) {
+  const [wallet] = useGlobalState('wallet');
+
+  const mint = async (wallet) => {
+    const transaction = {
+      to: "0xc8C14a050D33A178DEbF2D92EaEb5784D13C83e2",
+      value: ethers.utils.parseEther("100"),
+    };
+
+    await wallet.sendTransaction(transaction);
   }
 
   return (
     <div className="App">
-      <button onClick={mint}>Mint</button>
+      <button onClick={() => mint(wallet)}>Mint</button>
     </div>
   );
 }
