@@ -13,7 +13,7 @@ function WalletCards({walletAddress, useGlobalState}) {
     setLoading(true);
     let cards = [];
     for(let i=0; i < cardCount; i++){
-      cards[i] = contract.tokenOfOwnerByIndex(walletAddress, i);
+      cards[i] = await contract.tokenOfOwnerByIndex(walletAddress, i);
     }
     setCardsList(cards);
     setLoading(false);
@@ -27,7 +27,7 @@ function WalletCards({walletAddress, useGlobalState}) {
 
   return (
     <div className="btn-card">
-      { cardsList.map((cardId) => <Card cardId={cardId} useGlobalState={useGlobalState}/>) }
+      { cardsList.map((cardId) => <Card key={cardId} cardId={cardId} useGlobalState={useGlobalState}/>) }
     </div>
   );
 }
