@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import Profile from './components/organism/Profile';
+import Profile from './components/organisms/Profile';
 import Mint from './components/molecules/Mint';
 import Generate from './components/molecules/Generate';
-import Card from './components/molecules/Card';
+import WalletCards from './components/organisms/WalletCards';
 import { ethers } from "ethers";
 import { createGlobalState } from 'react-hooks-global-state';
 import specs from "./assets/Tunfo.json";
@@ -30,7 +30,7 @@ function App() {
   const [balance, setBalance] = useGlobalState('balance');
   const [currentBlock, setCurrentBlock] = useGlobalState('currentBlock');
   const [contract, setContract] = useGlobalState('contract');
-  const [date, setDate] = useState(Date.now())
+  const [date, setDate] = useState(Date.now());
 
   useEffect(() => {
     if(!window.ethereum.selectedAddress) return;
@@ -86,11 +86,7 @@ function App() {
           Your balance is: {balance}
           <Mint useGlobalState={useGlobalState}/>
           <Generate useGlobalState={useGlobalState}/>
-          {/* <Card cardId={0} useGlobalState={useGlobalState}/> */}
-          <Card cardId={1} useGlobalState={useGlobalState}/>
-          {/* <Card cardId={2} useGlobalState={useGlobalState}/>
-          <Card cardId={3} useGlobalState={useGlobalState}/>
-          <Card cardId={4} useGlobalState={useGlobalState}/> */}
+          <WalletCards walletAddress={address} useGlobalState={useGlobalState}/>
         </div>}
       </div>
     
