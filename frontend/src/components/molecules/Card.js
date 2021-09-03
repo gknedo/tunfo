@@ -1,4 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
+import RARITIES from '../../fixtures/rarities.json';
+import TYPES from '../../fixtures/types.json';
 
 function Card({cardId, useGlobalState}) {
   const [contract] = useGlobalState('contract');
@@ -13,19 +15,21 @@ function Card({cardId, useGlobalState}) {
     updateAttributes();
   }, [updateAttributes]);
 
+  if(isNaN(attributes[0])) return (`Loading ${cardId.toNumber()}...`);
   return (
     <div className="btn-card">
       -----------------------------
-      <div>A: {attributes[0]}</div>
-      <div>B: {attributes[1]}</div>
-      <div>C: {attributes[2]}</div>
-      <div>D: {attributes[3]}</div>
-      <div>E: {attributes[4]}</div>
-      <div>F: {attributes[5]}</div>
-      <div>G: {attributes[6]}</div>
-      <div>H: {attributes[7]}</div>
-      <div>I: {attributes[8]}</div>
-      <div>J: {attributes[9]}</div>
+      <div># {cardId.toNumber()}</div>
+      <div>Animal: {Object.keys(TYPES)[attributes[0]]}</div>
+      <div>Rarity: {Object.keys(RARITIES)[attributes[1]]}</div>
+      <div>Generation: {attributes[2]}</div>
+      <div>Donation: ${attributes[3]}</div>
+      <div>POW: {attributes[4]}</div>
+      <div>VIT: {attributes[5]}</div>
+      <div>RES: {attributes[6]}</div>
+      <div>AGI: {attributes[7]}</div>
+      <div>INT: {attributes[8]}</div>
+      <div>CHA: {attributes[9]}</div>
     </div>
   );
 }
