@@ -1,16 +1,8 @@
-import { ethers } from 'ethers';
 import { useEffect, useState, useCallback } from 'react';
-import specs from "./Tunfo.json";
 
 function Card({cardId, useGlobalState}) {
-  const [wallet] = useGlobalState('wallet');
-  const [contract, setContract] = useState();
+  const [contract] = useGlobalState('contract');
   const [attributes, setAttributes] = useState([]);
-
-  useEffect(() => {
-    if(!wallet) return;
-    setContract(new ethers.Contract(specs.address, specs.abi, wallet));
-  }, [wallet, setContract]);
 
   const updateAttributes = useCallback(async () => {
     if(!contract) return;
@@ -19,7 +11,6 @@ function Card({cardId, useGlobalState}) {
 
   useEffect(()=> {
     updateAttributes();
-    
   }, [updateAttributes]);
 
   return (

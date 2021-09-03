@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Profile from './components/organism/Profile';
-import Mint from './components/organism/Mint';
-import Generate from './components/organism/Generate';
-import Card from './components/organism/Card';
+import Mint from './components/molecules/Mint';
+import Generate from './components/molecules/Generate';
+import Card from './components/molecules/Card';
 import { ethers } from "ethers";
 import { createGlobalState } from 'react-hooks-global-state';
+import specs from "./assets/Tunfo.json";
 
 window.ethereum.on('accountsChanged', (accounts) => {
   document.location.reload();
@@ -16,8 +17,8 @@ const initialState = {
   provider: null,
   address: null,
   balance: null,
-  currentBlock: 0,
-  lastUpdate: Date.now(),
+  contract: null,
+  currentBlock: 0
 };
 
 const { useGlobalState } = createGlobalState(initialState);
@@ -28,6 +29,7 @@ function App() {
   const [wallet, setWallet] = useGlobalState('wallet');
   const [balance, setBalance] = useGlobalState('balance');
   const [currentBlock, setCurrentBlock] = useGlobalState('currentBlock');
+  const [contract, setContract] = useGlobalState('contract');
   const [date, setDate] = useState(Date.now())
 
   useEffect(() => {
@@ -68,6 +70,11 @@ function App() {
       clearTimeout(timerID);
     };
   }, [date, setDate, updateCurrentBlock]);
+
+  useEffect(() => {
+    if(!wallet) return;
+    setContract(new ethers.Contract(specs.address, specs.abi, wallet));
+  }, [wallet, setContract]);
 
   return (
       <div className="App">
