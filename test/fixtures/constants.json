@@ -1,3 +1,5 @@
 {
-  "cardCost": 10
+  "cardCost": 10,
+  "encounterCost": 10,
+  "encounterFeeCost": 1
 }
