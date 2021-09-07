@@ -55,6 +55,31 @@ contract Tunfo is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     );
   }
 
+  function _getAttributes(uint256 tokenId) public view
+    returns(Cards.Card memory) {
+    (uint16 cardType,
+    uint8 rarity,
+    uint16 generation,
+    uint8 power,
+    uint8 vitality,
+    uint8 resistance,
+    uint8 agility,
+    uint8 inteligence,
+    uint8 charisma) = getAttributes(tokenId);
+    
+    return Cards.Card(
+      Cards.CardType(cardType),
+      Cards.CardRarity(rarity),
+      generation,
+      power,
+      vitality,
+      resistance,
+      agility,
+      inteligence,
+      charisma
+    );
+  }
+
   function generateAllTokens() public onlyOwner {
     generateTokens(_tokenIdCounter.current() - _tokenIdToGenerateCounter.current());
   }
