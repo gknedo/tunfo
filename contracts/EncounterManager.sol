@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 
+import "./Tunfo.sol";
 import "./Cards.sol";
 
 contract EncounterManager is Pausable, Ownable {
@@ -18,6 +19,7 @@ contract EncounterManager is Pausable, Ownable {
   mapping (uint256 => uint256) private _survivalEncounters;
   mapping (uint256 => uint256) private _lastEncounterId;
   mapping (uint256 => Encounter) private _encounterHistory;
+  Tunfo private _token;
   Counters.Counter private _encounterIdCounter;
   uint256 private _champion;
   uint256 private _championBounty;
@@ -44,7 +46,9 @@ contract EncounterManager is Pausable, Ownable {
     uint8 card2Score;
   }
   
-  constructor() {}
+  constructor(Tunfo token) {
+    _token = token;
+  }
 
   function pause() public onlyOwner {
     _pause();
@@ -54,7 +58,12 @@ contract EncounterManager is Pausable, Ownable {
     _unpause();
   }
 
-  function join() public payable whenNotPaused {
+  function join(uint256 tokenId) public payable whenNotPaused {
     require(msg.value == (encounterCost + encounterFeeCost), "Encounter ticket is 11.");
+    require(_token.isTokenInitialized(tokenId));
+    require(_token.ownerOf(tokenId) == msg.sender);
+    require(_bounties[tokenId] == 0);
+
+    _bounties[tokenId] = 1;
   }
 }
