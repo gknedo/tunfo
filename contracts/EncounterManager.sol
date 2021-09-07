@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 
 import "./Tunfo.sol";
 import "./Cards.sol";
+import "hardhat/console.sol";
 
 contract EncounterManager is Pausable, Ownable {
   using Counters for Counters.Counter;
@@ -35,7 +36,6 @@ contract EncounterManager is Pausable, Ownable {
     uint256 card1Bounty;
     uint256 card2Bounty;
     bool onGeneration;
-    bool onDonationValue;
     bool onPower;
     bool onVitality;
     bool onResistance;
@@ -65,5 +65,33 @@ contract EncounterManager is Pausable, Ownable {
     require(_bounties[tokenId] == 0);
 
     _bounties[tokenId] = 1;
+  }
+
+  function shuffleAttributes(uint256 seed) public view
+    returns(bool, bool, bool, bool, bool, bool, bool) {
+    uint256 _seed = seed;
+    bool[] memory attributes = new bool[](7);
+    uint8 selected;
+
+    do {
+      uint8 shuffled = uint8(_seed)%7;
+      _seed >>= 4;
+
+      if(attributes[shuffled]) continue;
+
+      attributes[shuffled] = true;
+      selected +=1;
+
+    } while(selected < 4);
+
+    return (
+      attributes[0],
+      attributes[1],
+      attributes[2],
+      attributes[3],
+      attributes[4],
+      attributes[5],
+      attributes[6]
+    );
   }
 }

@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const deploy = require("./utils/deploy");
 const { cardCost, encounterCost, encounterFeeCost } = require("./fixtures/constants.json");
 const entryCost = encounterCost + encounterFeeCost;
-const { ethers } = require("ethers");
+const { ethers, BigNumber } = require("ethers");
 
 describe("EncounterManager", () => {
   describe("join", () => {
@@ -84,6 +84,19 @@ describe("EncounterManager", () => {
       await expect(contract.join(0, {value: entryCost})).be.reverted;
       await expect(contract.connect(wallet).join(1, {value: entryCost})).to.not.be.reverted;
       await expect(contract.connect(wallet).join(1, {value: entryCost})).to.be.reverted;
+    });
+  });
+
+  describe("shuffleAttributes", () => {
+    it("reverts if value is not the Encounter Cost", async () => {
+      const tunfo = await deploy("Tunfo");
+      const contract = await deploy("EncounterManager", tunfo.address);
+      const [_, wallet] = await hre.ethers.getSigners();
+      const seed = BigNumber.from("0x420a5ebca4d3f8b2b6cd09ef0a277296cfa1d7b6f89a230399b6c59fe0eed0d0");
+
+      const result = await contract.shuffleAttributes(seed);
+
+      expect(result).to.eql([true,false,true,false,false,true,true]);
     });
   });
 });
