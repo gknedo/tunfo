@@ -67,7 +67,7 @@ contract EncounterManager is Pausable, Ownable {
     _bounties[tokenId] = 1;
   }
 
-  function shuffleAttributes(uint256 seed) public view
+  function shuffleAttributes(uint256 seed) public pure
     returns(bool, bool, bool, bool, bool, bool, bool) {
     uint256 _seed = seed;
     bool[] memory attributes = new bool[](7);
