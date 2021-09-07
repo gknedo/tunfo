@@ -156,8 +156,8 @@ describe("Tunfo", () => {
       await tunfo.generateAllTokens();
       const card0 = await tunfo.getAttributes(0);
       const card1 = await tunfo.getAttributes(1);
-      expect(card0.length).to.eq(10);
-      expect(card1.length).to.eq(10);
+      expect(card0.length).to.eq(9);
+      expect(card1.length).to.eq(9);
       expect(card0[2]).to.eq(1);
       expect(card1[2]).to.eq(1);
       expect(card0[3]).to.be.greaterThan(0);

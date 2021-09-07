@@ -19,10 +19,6 @@ library CardsPub {
     return Cards.getGeneration();
   }
 
-  function getDonationValue(uint8 seed) pure public returns (uint32) {
-    return Cards.getDonationValue(seed);
-  }
-
   function getDeltaWithBonus(uint8 rarity, uint8 minAttribute)
     pure public
     returns(uint8) {
@@ -54,13 +50,12 @@ library CardsPub {
 
   function generateCard(uint256 seed)
     pure public
-    returns(uint16, uint8, uint16, uint32, uint8, uint8, uint8, uint8, uint8, uint8) {
+    returns(uint16, uint8, uint16, uint8, uint8, uint8, uint8, uint8, uint8) {
       Cards.Card memory card = Cards.generateCard(seed);
       return(
         uint16(card.cardType),
         uint8(card.rarity),
         card.generation,
-        card.donationValue,
         card.power,
         card.vitality,
         card.resistance,

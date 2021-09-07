@@ -12,7 +12,6 @@ library Cards {
     CardType cardType;
     CardRarity rarity;
     uint16 generation;
-    uint32 donationValue;
     uint8 power;
     uint8 vitality;
     uint8 resistance;
@@ -37,14 +36,6 @@ library Cards {
     if(seed < 0xF4) return CardRarity.RARE;
     if(seed < 0xFE) return CardRarity.EPIC;
     return CardRarity.LEGENDARY;
-  }
-
-  function getDonationValue(uint8 seed) pure internal returns (uint32) {
-    if(seed < 0x69) return 1;
-    if(seed < 0xCF) return 10;
-    if(seed < 0xF4) return 50;
-    if(seed < 0xFF) return 100;
-    return 1000;
   }
 
   function getDeltaWithBonus(CardRarity rarity, uint8 minAttribute)
@@ -114,13 +105,12 @@ library Cards {
         cardType,
         rarity,
         getGeneration(),
-        getDonationValue(uint8(seed >> 16)),
-        getAttribute(cardType, rarity, CardAttribute.POWER, uint8(seed >> 24)),
-        getAttribute(cardType, rarity, CardAttribute.VITALITY, uint8(seed >> 32)),
-        getAttribute(cardType, rarity, CardAttribute.RESISTANCE, uint8(seed >> 40)),
-        getAttribute(cardType, rarity, CardAttribute.AGILITY, uint8(seed >> 48)),
-        getAttribute(cardType, rarity, CardAttribute.INTELIGENCE, uint8(seed >> 56)),
-        getAttribute(cardType, rarity, CardAttribute.CHARISMA, uint8(seed >> 64))
+        getAttribute(cardType, rarity, CardAttribute.POWER, uint8(seed >> 16)),
+        getAttribute(cardType, rarity, CardAttribute.VITALITY, uint8(seed >> 24)),
+        getAttribute(cardType, rarity, CardAttribute.RESISTANCE, uint8(seed >> 32)),
+        getAttribute(cardType, rarity, CardAttribute.AGILITY, uint8(seed >> 40)),
+        getAttribute(cardType, rarity, CardAttribute.INTELIGENCE, uint8(seed >> 48)),
+        getAttribute(cardType, rarity, CardAttribute.CHARISMA, uint8(seed >> 56))
       );
   }
 }

@@ -65,37 +65,6 @@ describe("Cards", () => {
     });
   });
 
-  describe("getDonationValue", () => {
-    it("returns 1 when value < 40%", async () => {
-      const cards = await deploy("CardsPub");
-      expect(await cards.getDonationValue(0x00)).to.equal(1);
-      expect(await cards.getDonationValue(0x68)).to.equal(1);
-    });
-
-    it("returns 10 when 40% <= value < 80%", async () => {
-      const cards = await deploy("CardsPub");
-      expect(await cards.getDonationValue(0x69)).to.equal(10);
-      expect(await cards.getDonationValue(0xCE)).to.equal(10);
-    });
-
-    it("returns 50 when value 80% <= value < 95%", async () => {
-      const cards = await deploy("CardsPub");
-      expect(await cards.getDonationValue(0xCF)).to.equal(50);
-      expect(await cards.getDonationValue(0xF3)).to.equal(50);
-    });
-
-    it("returns 100 when value 95% <= value < 99.5%", async () => {
-      const cards = await deploy("CardsPub");
-      expect(await cards.getDonationValue(0xF4)).to.equal(100);
-      expect(await cards.getDonationValue(0xFE)).to.equal(100);
-    });
-
-    it("returns 1000 when value 99% <= value", async () => {
-      const cards = await deploy("CardsPub");
-      expect(await cards.getDonationValue(0xFF)).to.equal(1000);
-    });
-  });
-
   describe("getDeltaWithBonus", () => {
     it("returns delta when card rarity is COMMON", async () => {
       const cards = await deploy("CardsPub");
@@ -214,19 +183,17 @@ describe("Cards", () => {
 
       const expectedRarity = await cards.getRarity(0xd0);
       const expectedType = await cards.getCardType(0x2c);
-      const expectedValue = await cards.getDonationValue(0xee);
 
       expect(await cards.generateCard(seed)).to.eql([
         expectedType,
         expectedRarity,
         1,
-        expectedValue,
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.POWER, 0xe0),
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.VITALITY, 0x9f),
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.RESISTANCE, 0xc5),
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.AGILITY, 0xb6),
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.INTELIGENCE, 0x99),
-        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.CHARISMA, 0x03)
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.POWER, 0xee),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.VITALITY, 0xe0),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.RESISTANCE, 0x9f),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.AGILITY, 0xc5),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.INTELIGENCE, 0xb6),
+        await cards.getAttribute(expectedType, expectedRarity, ATTRIBUTES.CHARISMA, 0x99)
       ]);
     });
   });
