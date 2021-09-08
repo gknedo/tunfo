@@ -122,11 +122,11 @@ contract EncounterManager is Pausable, Ownable {
     uint256 currentBlock = uint256(blockhash(block.number-1));
     uint256 currentEncounterId = _encounterIdCounter.current();
     uint256 card1Id = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount))) % joinedCount;
-    uint256 card2Id = card1Id;
-
-    do {
-      card2Id = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id))) % joinedCount;
-    } while(card1Id == card2Id);
+    uint256 card2Id = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id))) % joinedCount;
+    
+    while(card1Id == card2Id) {
+      card2Id = (card2Id + 1) % joinedCount;
+    }
 
     uint256 seed = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id, card2Id)));
 
@@ -137,7 +137,6 @@ contract EncounterManager is Pausable, Ownable {
     uint256 card1bounty = _bounties[card1Id];
     uint256 card2bounty = _bounties[card2Id];
     EncounterAttributes memory attr = _shuffleAttributes(seed);
-
 
     Cards.Card memory card1 = _token._getAttributes(card1Id);
     Cards.Card memory card2 = _token._getAttributes(card2Id);

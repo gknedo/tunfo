@@ -118,7 +118,7 @@ describe("EncounterManager", () => {
       expect(result[8]).to.eq(false);
       expect(result[9]).to.eq(true);
       expect(result[10]).to.eq(false);
-      expect(result[11]).to.eq(true);
+      expect(result[11]).to.eq(false);
       expect(result[12]).to.eq(true);
       expect(result[13]).to.eq(true);
     });
