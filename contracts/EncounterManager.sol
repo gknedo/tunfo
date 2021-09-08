@@ -15,6 +15,7 @@ contract EncounterManager is Pausable, Ownable {
 
   uint256 constant encounterCost = 10;
   uint256 constant encounterFeeCost = 1;
+  mapping (uint256 => uint256) private _enumCardsIds;
   mapping (uint256 => uint256) private _bounties;
   mapping (uint256 => uint256) private _lifetimeEarnings;
   mapping (uint256 => uint256) private _survivalEncounters;
@@ -22,6 +23,7 @@ contract EncounterManager is Pausable, Ownable {
   mapping (uint256 => Encounter) private _encounterHistory;
   Tunfo private _token;
   Counters.Counter private _encounterIdCounter;
+  Counters.Counter private _cardsJoinedIdCounter;
   uint256 private _champion;
   uint256 private _championBounty;
   uint256 private _legend;
@@ -74,6 +76,8 @@ contract EncounterManager is Pausable, Ownable {
     require(_token.ownerOf(tokenId) == msg.sender);
     require(_bounties[tokenId] == 0);
 
+    _enumCardsIds[_cardsJoinedIdCounter.current()] = tokenId;
+    _cardsJoinedIdCounter.increment();
     _bounties[tokenId] = encounterCost;
   }
 
@@ -108,10 +112,28 @@ contract EncounterManager is Pausable, Ownable {
   function _shuffleAttributes(uint256 seed) private pure
   returns (EncounterAttributes memory ret ) {
     (bool attr0, bool attr1, bool attr2,  bool attr3, bool attr4, bool attr5, bool attr6) = shuffleAttributes(seed);
-    return EncounterAttributes(attr0, attr1, attr2, attr3, attr5, attr5, attr6);
+    return EncounterAttributes(attr0, attr1, attr2, attr3, attr4, attr5, attr6);
   }
 
-  function simulateEncounter(uint256 card1Id, uint256 card2Id, uint256 seed) public view returns(Encounter memory) {
+  function newRandomEncounter() public view returns(Encounter memory) {
+    uint256 joinedCount = _cardsJoinedIdCounter.current();
+    require(joinedCount > 1);
+    
+    uint256 currentBlock = uint256(blockhash(block.number-1));
+    uint256 currentEncounterId = _encounterIdCounter.current();
+    uint256 card1Id = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount))) % joinedCount;
+    uint256 card2Id = card1Id;
+
+    do {
+      card2Id = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id))) % joinedCount;
+    } while(card1Id == card2Id);
+
+    uint256 seed = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id, card2Id)));
+
+    return newEncounter(card1Id, card2Id, seed);
+  }
+
+  function newEncounter(uint256 card1Id, uint256 card2Id, uint256 seed) public view returns(Encounter memory) {
     uint256 card1bounty = _bounties[card1Id];
     uint256 card2bounty = _bounties[card2Id];
     EncounterAttributes memory attr = _shuffleAttributes(seed);
@@ -140,7 +162,6 @@ contract EncounterManager is Pausable, Ownable {
     if(attr.charisma && card2.charisma > card1.charisma) card2Score++;
 
     uint256 winnerId;
-
     if(card1Score > card2Score) winnerId = card1Id;
     if(card2Score > card1Score) winnerId = card2Id;
 

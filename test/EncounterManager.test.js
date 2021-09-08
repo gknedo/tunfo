@@ -96,7 +96,7 @@ describe("EncounterManager", () => {
     });
   });
 
-  describe("simulateEncounter", () => {
+  describe("newEncounter", () => {
     it("returns the encounter based on seed", async () => {
       const tunfo = await deploy("Tunfo");
       const contract = await deploy("EncounterManager", tunfo.address);
@@ -108,7 +108,7 @@ describe("EncounterManager", () => {
 
       const seed = BigNumber.from("0x420a5ebca4d3f8b2b6cd09ef0a277296cfa1d7b6f89a230399b6c59fe0eed0d0");
 
-      const result = await contract.simulateEncounter(0, 1, seed);
+      const result = await contract.newEncounter(0, 1, seed);
 
       expect(result[0]).to.eq(BigNumber.from(0));
       expect(result[1]).to.eq(BigNumber.from(1));
@@ -121,6 +121,22 @@ describe("EncounterManager", () => {
       expect(result[11]).to.eq(true);
       expect(result[12]).to.eq(true);
       expect(result[13]).to.eq(true);
+    });
+  });
+
+  describe("newRandomEncounter", () => {
+    it("reverts if not enought cards", async () => {
+      const tunfo = await deploy("Tunfo");
+      const contract = await deploy("EncounterManager", tunfo.address);
+
+      await tunfo.mint({value: cardCost});
+      await tunfo.mint({value: cardCost});
+      await tunfo.generateAllTokens();
+      await contract.join(0, {value: entryCost});
+
+      await expect(contract.newRandomEncounter()).to.be.reverted;
+      await contract.join(1, {value: entryCost});
+      await expect(contract.newRandomEncounter()).to.not.be.reverted;
     });
   });
 });
