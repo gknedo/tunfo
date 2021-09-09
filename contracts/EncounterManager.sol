@@ -16,6 +16,7 @@ contract EncounterManager is Pausable, Ownable {
   uint256 constant encounterCost = 10;
   uint256 constant encounterFeeCost = 1;
   mapping (uint256 => uint256) private _enumCardsIds;
+  mapping (uint256 => uint256) private _cardtoEnumIds;
   mapping (uint256 => uint256) private _bounties;
   mapping (uint256 => uint256) private _lifetimeEarnings;
   mapping (uint256 => uint256) private _survivalEncounters;
@@ -70,6 +71,17 @@ contract EncounterManager is Pausable, Ownable {
     _unpause();
   }
 
+  function remove(uint256 tokenId) public onlyOwner {
+    _bounties[tokenId] = 0;
+    _cardsJoinedIdCounter.decrement();
+    uint256 enumId = _cardtoEnumIds[tokenId];
+
+    _enumCardsIds[enumId] = _enumCardsIds[_cardsJoinedIdCounter.current()];
+    _cardtoEnumIds[_enumCardsIds[_cardsJoinedIdCounter.current()]] = enumId;
+    _enumCardsIds[_cardsJoinedIdCounter.current()] = 0;
+    _cardtoEnumIds[tokenId] = 0;
+  }
+
   function join(uint256 tokenId) public payable whenNotPaused {
     require(msg.value == (encounterCost + encounterFeeCost), "Encounter ticket is 11.");
     require(_token.isTokenInitialized(tokenId));
@@ -77,6 +89,7 @@ contract EncounterManager is Pausable, Ownable {
     require(_bounties[tokenId] == 0);
 
     _enumCardsIds[_cardsJoinedIdCounter.current()] = tokenId;
+    _cardtoEnumIds[tokenId] = _cardsJoinedIdCounter.current();
     _cardsJoinedIdCounter.increment();
     _bounties[tokenId] = encounterCost;
   }
@@ -115,6 +128,29 @@ contract EncounterManager is Pausable, Ownable {
     return EncounterAttributes(attr0, attr1, attr2, attr3, attr4, attr5, attr6);
   }
 
+  function createEncounter() public onlyOwner {
+    Encounter memory encounter = newRandomEncounter();
+    uint256 earnings;
+    uint256 loserId;
+
+    if(encounter.card1Id == encounter.winnerId) {
+      earnings = _bounties[encounter.card2Id];
+      loserId = encounter.card2Id;
+    } else if(encounter.card2Id == encounter.winnerId) {
+      earnings = _bounties[encounter.card1Id];
+      loserId = encounter.card1Id;
+    } else return;
+
+    uint256 currentEncounter = _encounterIdCounter.current();
+    _encounterHistory[currentEncounter] = encounter;
+    _lastEncounterId[encounter.card1Id] = currentEncounter;
+    _lastEncounterId[encounter.card2Id] = currentEncounter;
+
+    _bounties[encounter.winnerId] += earnings/2;
+
+
+  }
+
   function newRandomEncounter() public view returns(Encounter memory) {
     uint256 joinedCount = _cardsJoinedIdCounter.current();
     require(joinedCount > 1);
@@ -127,7 +163,8 @@ contract EncounterManager is Pausable, Ownable {
     while(card1Id == card2Id) {
       card2Id = (card2Id + 1) % joinedCount;
     }
-
+    card1Id = _enumCardsIds[card1Id];
+    card2Id = _enumCardsIds[card1Id];
     uint256 seed = uint256(keccak256(abi.encodePacked(currentBlock, currentEncounterId, joinedCount, card1Id, card2Id)));
 
     return newEncounter(card1Id, card2Id, seed);
