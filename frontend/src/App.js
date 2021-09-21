@@ -29,7 +29,7 @@ function App() {
   const [wallet, setWallet] = useGlobalState('wallet');
   const [balance, setBalance] = useGlobalState('balance');
   const [currentBlock, setCurrentBlock] = useGlobalState('currentBlock');
-  const [contract, setContract] = useGlobalState('contract');
+  const [setContract] = useGlobalState('contract');
   const [date, setDate] = useState(Date.now());
 
   useEffect(() => {
