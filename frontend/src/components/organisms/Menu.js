@@ -27,10 +27,12 @@ function Menu() {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <MenuItem to="abacaxi">Abacaxi</MenuItem>
-                <MenuItem to="banana" selected>Banana</MenuItem>
-                <MenuItem to="cenoura">Cenoura</MenuItem>
-                <MenuItem to="dado">Dado</MenuItem>
+                <MenuItem to="/">About</MenuItem>
+                <MenuItem to="/jungle" selected>The Jungle</MenuItem>
+                <MenuItem to="/bones">Bones</MenuItem>
+                <MenuItem to="/taming">Taming</MenuItem>
+                <MenuItem to="/faq">FAQ</MenuItem>
+                <MenuItem to="/roadmap">Roadmap</MenuItem>
               </div>
             </div>
           </div>
