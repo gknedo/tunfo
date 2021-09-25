@@ -12,7 +12,7 @@ import Menu from './components/organisms/Menu';
 function App() {
   return(
   <Router>
-      <div className="min-h-screen bg-gray-800 text-gray-100">
+      <div>
         <Menu />
 
         {/* A <Switch> looks through its children <Route>s and
