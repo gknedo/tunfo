@@ -13,9 +13,7 @@ function About() {
         title="A wildlife clash on your blockchain."
         description="Join now in the community of the most innovative card game on GoChain"
       />
-
       <Divider />
-
       <PagePanel
         reverse
         src={ScorpionUltraRare}
@@ -23,14 +21,14 @@ function About() {
         title="Find the rarest."
         description="Each animal has unique attributes, will you find an epic one?"
       />
-
+      <Divider />
       <PagePanel
         src={ScorpionUltraRare}
         alt="Ultra Rare Scorpion"
         title="Battle to Survive."
         description="In the jungle, only the strongests will be able to stay alive."
       />
-
+      <Divider />
       <PagePanel
         reverse
         src={ScorpionUltraRare}
