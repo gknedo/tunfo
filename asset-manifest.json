@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.df51c6e6.chunk.css",
-    "main.js": "/static/js/main.df115778.chunk.js",
-    "main.js.map": "/static/js/main.df115778.chunk.js.map",
+    "main.css": "/static/css/main.0fa2e587.chunk.css",
+    "main.js": "/static/js/main.81df01ec.chunk.js",
+    "main.js.map": "/static/js/main.81df01ec.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.89565c80.js",
     "runtime-main.js.map": "/static/js/runtime-main.89565c80.js.map",
     "static/js/2.1fd6b9c1.chunk.js": "/static/js/2.1fd6b9c1.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.8344d56d.chunk.js": "/static/js/3.8344d56d.chunk.js",
     "static/js/3.8344d56d.chunk.js.map": "/static/js/3.8344d56d.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.df51c6e6.chunk.css.map": "/static/css/main.df51c6e6.chunk.css.map",
+    "static/css/main.0fa2e587.chunk.css.map": "/static/css/main.0fa2e587.chunk.css.map",
     "static/js/2.1fd6b9c1.chunk.js.LICENSE.txt": "/static/js/2.1fd6b9c1.chunk.js.LICENSE.txt",
     "static/media/pango.913b9a9a.png": "/static/media/pango.913b9a9a.png",
     "static/media/scorpion-ultra-rare.87ee56e3.png": "/static/media/scorpion-ultra-rare.87ee56e3.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.89565c80.js",
     "static/js/2.1fd6b9c1.chunk.js",
-    "static/css/main.df51c6e6.chunk.css",
-    "static/js/main.df115778.chunk.js"
+    "static/css/main.0fa2e587.chunk.css",
+    "static/js/main.81df01ec.chunk.js"
   ]
 }
