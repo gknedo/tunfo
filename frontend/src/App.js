@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import About from "./pages/About";
+import Jungle from './pages/Jungle';
 import Menu from './components/organisms/Menu';
 
 function App() {
@@ -18,20 +19,16 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <About />
           </Route>
-          <Route path="/users">
-            <Users />
+          <Route exact path="/jungle">
+            <Jungle />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 export default App;
