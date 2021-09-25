@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-function MenuItem({to, children}) {
-  const path = useLocation().pathname;
+const defaultClass = (isSelected) => {
+  const selectedClass = isSelected ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white";
+  return `${selectedClass} px-3 py-2 rounded-md text-sm font-medium`;
+}
 
-  const itemClass = (path == to) ?
-    "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium";
+const mobileClass = (isSelected) => {
+  const selectedClass = isSelected ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white";
+  return `${selectedClass} block px-3 py-2 rounded-md text-base font-medium`;
+}
+
+function MenuItem({to, children, isMobile}) {
+  const path = useLocation().pathname;
+  const isSelected = path === to;
+  const className = isMobile ? mobileClass(isSelected) : defaultClass(isSelected);
    
-    return <Link to={to} className={itemClass} >{children}</Link>;
+  return <Link to={to} className={className} >{children}</Link>;
 
 }
 

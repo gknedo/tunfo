@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import MenuItem from './Menu/MenuItem';
 
 function Menu() {
@@ -42,10 +41,12 @@ function Menu() {
       <div className="sm:hidden" id="mobile-menu">
         { isOpen && 
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="#" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
+            <MenuItem isMobile to="/">About</MenuItem>
+            <MenuItem isMobile to="/jungle" selected>The Jungle</MenuItem>
+            <MenuItem isMobile to="/bones">Bones</MenuItem>
+            <MenuItem isMobile to="/taming">Taming</MenuItem>
+            <MenuItem isMobile to="/faq">FAQ</MenuItem>
+            <MenuItem isMobile to="/roadmap">Roadmap</MenuItem>
           </div>
         }
       </div>
