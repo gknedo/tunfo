@@ -1,8 +1,4 @@
 import React from 'react';
-import PangoImage from '../../assets/pango.png';
-import ScorpionUltraRare from '../../assets/scorpion-ultra-rare.png'
-import PagePanel from '../../components/atoms/PagePanel';
-import Divider from '../../components/atoms/Divider';
 
 function Jungle() {
   return (

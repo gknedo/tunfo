@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import About from '../../pages/About';
 import MenuItem from './Menu/MenuItem';
 
 const renderMenuItems = ({isMobile} = {isMobile: false}) => {
