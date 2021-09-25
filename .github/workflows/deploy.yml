@@ -10,15 +10,12 @@ on:
   push:
     branches: [ main ]
 
-env:
-  GIT_AUTHOR_NAME: "Gustavo Canedo"
-  GIT_AUTHOR_EMAIL: "canedo@tunfo.world"
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: fregante/setup-git-user@v1
     - name: Deploy
       uses: actions/setup-node@v2
       with:
