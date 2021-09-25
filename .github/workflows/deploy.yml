@@ -16,12 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Deploy
-      uses: actions/setup-node@v2
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        node-version: 16.x
-        cache: 'npm'
-    - run: git config user.name 'github-actions[bot]'
-    - run: git config user.email 'github-actions[bot]@users.noreply.github.com'
-    - run: yarn install
-    - run: yarn build
-    - run: yarn deploy
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
