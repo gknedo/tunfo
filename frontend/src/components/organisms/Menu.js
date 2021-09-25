@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
+import About from '../../pages/About';
 import MenuItem from './Menu/MenuItem';
+
+const renderMenuItems = ({isMobile} = {isMobile: false}) => {
+  const className = isMobile ? "px-2 pt-2 pb-3 space-y-1" : "flex space-x-4";
+
+  return <div className={className}>
+    <MenuItem isMobile={isMobile} to="/">About</MenuItem>
+    <MenuItem isMobile={isMobile} to="/jungle" selected>The Jungle</MenuItem>
+    <MenuItem isMobile={isMobile} to="/attributes">Attributes</MenuItem>
+    <MenuItem isMobile={isMobile} to="/faq">FAQ</MenuItem>
+    <MenuItem isMobile={isMobile} to="/roadmap">Roadmap</MenuItem>
+  </div>;
+}
 
 function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,30 +38,14 @@ function Menu() {
               <img className="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow" />
             </div>
             <div className="hidden sm:block sm:ml-6">
-              <div className="flex space-x-4">
-                <MenuItem to="/">About</MenuItem>
-                <MenuItem to="/jungle" selected>The Jungle</MenuItem>
-                <MenuItem to="/bones">Bones</MenuItem>
-                <MenuItem to="/taming">Taming</MenuItem>
-                <MenuItem to="/faq">FAQ</MenuItem>
-                <MenuItem to="/roadmap">Roadmap</MenuItem>
-              </div>
+              {renderMenuItems()}
             </div>
           </div>
         </div>
       </div>
 
       <div className="sm:hidden" id="mobile-menu">
-        { isOpen && 
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <MenuItem isMobile to="/">About</MenuItem>
-            <MenuItem isMobile to="/jungle" selected>The Jungle</MenuItem>
-            <MenuItem isMobile to="/bones">Bones</MenuItem>
-            <MenuItem isMobile to="/taming">Taming</MenuItem>
-            <MenuItem isMobile to="/faq">FAQ</MenuItem>
-            <MenuItem isMobile to="/roadmap">Roadmap</MenuItem>
-          </div>
-        }
+        { isOpen && renderMenuItems({isMobile: true}) }
       </div>
     </nav>
   );
