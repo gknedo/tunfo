@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import About from "./components/ecosystems/About";
+import About from "./pages/About";
 import Menu from './components/organisms/Menu';
 
 function App() {
