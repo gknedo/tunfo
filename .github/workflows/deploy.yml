@@ -11,8 +11,8 @@ on:
     branches: [ main ]
 
 env:
-  GIT_AUTHOR_NAME: ${{secrets.GITHUB_AUTHOR_NAME}}
-  GIT_AUTHOR_EMAIL: ${{secrets.GITHUB_AUTHOR_EMAIL}}
+  GIT_AUTHOR_NAME: "Gustavo Canedo"
+  GIT_AUTHOR_EMAIL: "canedo@tunfo.world"
 
 jobs:
   build:
