@@ -2,7 +2,7 @@ import React from 'react';
 
 function Divider() {
   return (
-    <hr className="border-t w-3/4" />
+    <hr className="border-t mx-28" />
   );
 }
 

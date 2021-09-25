@@ -6,7 +6,7 @@ function PagePanel({src, alt, title, description, reverse}) {
       <img className="w-60" src={src} alt={alt}/>
       <div className="max-w-screen-sm flex flex-wrap justify-center flex-col gap-y-2 text-center">
         <h2 className="text-5xl">{title}</h2>
-        <p>{description}</p>
+        <p className="h-32">{description}</p>
       </div>
     </div>
   );
