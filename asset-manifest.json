@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/floor-checker/static/css/main.5ae7fb48.chunk.css",
+    "main.js": "/floor-checker/static/js/main.260faa07.chunk.js",
+    "main.js.map": "/floor-checker/static/js/main.260faa07.chunk.js.map",
+    "runtime-main.js": "/floor-checker/static/js/runtime-main.1b94ec1d.js",
+    "runtime-main.js.map": "/floor-checker/static/js/runtime-main.1b94ec1d.js.map",
+    "static/js/2.1fd6b9c1.chunk.js": "/floor-checker/static/js/2.1fd6b9c1.chunk.js",
+    "static/js/2.1fd6b9c1.chunk.js.map": "/floor-checker/static/js/2.1fd6b9c1.chunk.js.map",
+    "static/js/3.8344d56d.chunk.js": "/floor-checker/static/js/3.8344d56d.chunk.js",
+    "static/js/3.8344d56d.chunk.js.map": "/floor-checker/static/js/3.8344d56d.chunk.js.map",
+    "index.html": "/floor-checker/index.html",
+    "static/css/main.5ae7fb48.chunk.css.map": "/floor-checker/static/css/main.5ae7fb48.chunk.css.map",
+    "static/js/2.1fd6b9c1.chunk.js.LICENSE.txt": "/floor-checker/static/js/2.1fd6b9c1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1b94ec1d.js",
+    "static/js/2.1fd6b9c1.chunk.js",
+    "static/css/main.5ae7fb48.chunk.css",
+    "static/js/main.260faa07.chunk.js"
+  ]
+}
